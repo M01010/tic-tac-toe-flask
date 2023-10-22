@@ -1,6 +1,5 @@
 import random
 
-import game
 from player import Player
 from game import Game
 from flask import Flask, render_template, redirect, url_for, flash
@@ -19,7 +18,7 @@ def home():
 def start_game(player_type):
     if player_type == Player.Min.value:
         g.set_user(Player.Min)
-        i, j = game.num_to_row_col(random.randint(1, 9))
+        i, j = random.choice([(0, 0), (0, 2), (2, 0), (2, 2), (1, 1)])
         g.matrix[i][j] = g.bot.value
     elif player_type == Player.Max.value:
         g.set_user(Player.Max)
@@ -36,7 +35,7 @@ def play(i, j):
     if g.terminal():
         return redirect(url_for('end'))
     try:
-        g.play_user(game.row_col_to_num(i, j))
+        g.play_user(i, j)
         if g.terminal():
             if g.evaluate() == 0:
                 flash('you tied', 'info')

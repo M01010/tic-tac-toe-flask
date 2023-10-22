@@ -1,26 +1,16 @@
 from player import Player
 
 
-def row_col_to_num(i, j):
-    return (i * 3) + j + 1
-
-
-def num_to_row_col(num):
-    num -= 1
-    j = num % 3
-    i = (num - j) // 3
-    return i, j
-
-
 class Game:
 
     def __init__(self):
+        self.bot = Player.Min
+        self.user = Player.Max
         self.matrix = [
             [' ', ' ', ' '],
             [' ', ' ', ' '],
             [' ', ' ', ' '],
         ]
-        self.set_user(Player.Max)
 
     def set_user(self, user):
         self.user = user
@@ -131,11 +121,11 @@ class Game:
             self.matrix[best_action[0]][best_action[1]] = self.bot.value
             return
 
-    def play_user(self, n):
-        if n > 9 or n < 1:
-            raise Exception('1 to 9')
-        row, col = num_to_row_col(n)
-        if self.matrix[row][col] == ' ':
-            self.matrix[row][col] = self.user.value
-        else:
-            raise Exception('chosen before')
+    def play_user(self, i, j):
+        try:
+            if self.matrix[i][j] == ' ':
+                self.matrix[i][j] = self.user.value
+            else:
+                raise Exception('chosen before')
+        except Exception as e:
+            raise e
