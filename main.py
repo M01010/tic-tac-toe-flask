@@ -25,6 +25,11 @@ def start_game(player_type):
     return render_template('game.html', matrix=g.matrix)
 
 
+@app.route('/stats')
+def game_stats():
+    return render_template('stats.html', games=g.games, wins=g.wins, losses=g.losses, ties=g.ties)
+
+
 @app.route('/end')
 def end():
     return render_template('game.html', matrix=g.matrix, end=True)
@@ -37,17 +42,23 @@ def play(i, j):
     try:
         g.play_user(i, j)
         if g.terminal():
+            g.games += 1
             if g.evaluate() == 0:
                 flash('you tied', 'info')
+                g.ties += 1
             else:
                 flash('you won', 'info')
+                g.wins += 1
             return redirect(url_for('end'))
         g.minimax()
         if g.terminal():
+            g.games += 1
             if g.evaluate() == 0:
                 flash('you tied', 'info')
+                g.ties += 1
             else:
                 flash('you lost', 'info')
+                g.losses += 1
             return redirect(url_for('end'))
         return render_template('game.html', matrix=g.matrix)
     except Exception as e:

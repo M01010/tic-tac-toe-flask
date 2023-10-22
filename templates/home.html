@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>welcome to Tic Tac Toe</h1>
-    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('start_game', player_type='X') }}'"> start first (X)
+    <button type="button" class="btn btn-primary btn-lg"
+            onclick="window.location.href='{{ url_for('start_game', player_type='X') }}'"> start first (X)
     </button>
-    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('start_game', player_type='O') }}'"> start second (O)
+    <button type="button" class="btn btn-primary btn-lg"
+            onclick="window.location.href='{{ url_for('start_game', player_type='O') }}'"> start second (O)
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('game_stats') }}'">
+        get stats
     </button>
 {% endblock %}
