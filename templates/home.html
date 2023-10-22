@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>welcome to tic tac toe</h1>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('start_game', player_type='X') }}'"> start first (X)
+    </button>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('start_game', player_type='O') }}'"> start second (O)
+    </button>
+{% endblock %}
