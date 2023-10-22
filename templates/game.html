@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
+{% block head %}
+    <style>
+        .ttt {
+        border: 1px solid black;
+        height: 200px;
+        width: 200px;
+        background-color: transparent;
+        color: black;
+        font-size: 100px;
+        }
+    .ttt:hover {
+        border: 1px solid black;
+    }
+    </style>
+{% endblock %}
 {% block content %}
     <table>
         {% for i in range(3) %}
@@ -6,11 +21,11 @@
                 {% for j in range(3) %}
                     <td>
                         {% if end %}
-                            <button type="button" class="btn btn-primary btn-lg">
+                            <button type="button" class="btn ttt">
                                 {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
                             </button>
                         {% else %}
-                            <button type="button" class="btn btn-primary btn-lg"
+                            <button type="button" class="btn ttt"
                                     onclick="window.location.href='{{ url_for('play', i=i, j=j) }}'">
                                 {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
                             </button>
@@ -21,7 +36,7 @@
         {% endfor %}
     </table>
     {% if end %}
-        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('home') }}'"> Play
+        <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('home') }}'"> Play
             again?
         </button>
     {% endif %}
