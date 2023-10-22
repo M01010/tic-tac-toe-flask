@@ -2,7 +2,8 @@
 {% block head %}
     <style>
         .ttt {
-        border: 1px solid black;
+        margin: -3px;
+        border: 10px solid black;
         height: 200px;
         width: 200px;
         background-color: transparent;
@@ -10,34 +11,40 @@
         font-size: 100px;
         }
     .ttt:hover {
-        border: 1px solid black;
+        border: 10px solid black;
     }
     </style>
 {% endblock %}
 {% block content %}
-    <table>
-        {% for i in range(3) %}
-            <tr>
-                {% for j in range(3) %}
-                    <td>
-                        {% if end %}
-                            <button type="button" class="btn ttt">
-                                {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
-                            </button>
-                        {% else %}
-                            <button type="button" class="btn ttt"
-                                    onclick="window.location.href='{{ url_for('play', i=i, j=j) }}'">
-                                {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
-                            </button>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-    {% if end %}
-        <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('home') }}'"> Play
-            again?
-        </button>
-    {% endif %}
+    <div class="container" style="padding-bottom: 50px; padding-top: 50px;">
+        <table>
+            {% for i in range(3) %}
+                <tr>
+                    {% for j in range(3) %}
+                        <td>
+                            {% if end %}
+                                <button type="button" class="btn ttt" style="cursor: default;">
+                                    {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn ttt"
+                                        onclick="window.location.href='{{ url_for('play', i=i, j=j) }}'"
+                                        onmouseover="this.style.border='10px solid grey';"
+                                        onmouseout="this.style.border='10px solid black';">
+                                    {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
+                                </button>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="container" style="padding-bottom: 10px; padding-top: 10px;">
+        {% if end %}
+            <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='{{ url_for('home') }}'">
+                Play again?
+            </button>
+        {% endif %}
+    </div>
 {% endblock %}
