@@ -121,10 +121,12 @@ class Game:
             self.matrix[best_action[0]][best_action[1]] = self.bot.value
             return
 
-    def play_user(self, i, j):
+    def play_user(self, i, j, p=None):
+        if p is None:
+            p = self.user.value
         try:
             if self.matrix[i][j] == ' ':
-                self.matrix[i][j] = self.user.value
+                self.matrix[i][j] = p
             else:
                 raise Exception('chosen before')
         except Exception as e:
