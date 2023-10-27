@@ -9,6 +9,7 @@
         background-color: transparent;
         color: black;
         font-size: 100px;
+        border-radius: 0px;
         }
     .ttt:hover {
         border: 10px solid black;
@@ -27,19 +28,31 @@
                                     {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
                                 </button>
                             {% elif p %}
-                                <button type="button" class="btn ttt"
-                                        onclick="window.location.href='{{ url_for('play2', player_type=p, i=i, j=j) }}'"
-                                        onmouseover="this.style.border='10px solid grey';"
-                                        onmouseout="this.style.border='10px solid black';">
-                                    {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
-                                </button>
+                                {% if matrix[i][j] == ' ' %}
+                                    <button type="button" class="btn ttt"
+                                            onclick="window.location.href='{{ url_for('play2', player_type=p, i=i, j=j) }}'"
+                                            onmouseover="this.style.border='10px solid grey';"
+                                            onmouseout="this.style.border='10px solid black';">
+                                        {{ '&nbsp;' |safe }}
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="btn ttt" style="cursor: default;">
+                                        {{ matrix[i][j] }}
+                                    </button>
+                                {% endif %}
                             {% else %}
-                                <button type="button" class="btn ttt"
-                                        onclick="window.location.href='{{ url_for('play', i=i, j=j) }}'"
-                                        onmouseover="this.style.border='10px solid grey';"
-                                        onmouseout="this.style.border='10px solid black';">
-                                    {{ matrix[i][j] if matrix[i][j] != ' ' else '&nbsp;' |safe }}
-                                </button>
+                                {% if matrix[i][j] == ' ' %}
+                                    <button type="button" class="btn ttt"
+                                            onclick="window.location.href='{{ url_for('play', i=i, j=j) }}'"
+                                            onmouseover="this.style.border='10px solid grey';"
+                                            onmouseout="this.style.border='10px solid black';">
+                                        {{ '&nbsp;' |safe }}
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="btn ttt" style="cursor: default;">
+                                        {{ matrix[i][j] }}
+                                    </button>
+                                {% endif %}
                             {% endif %}
                         </td>
                     {% endfor %}
