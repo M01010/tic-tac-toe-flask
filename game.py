@@ -4,11 +4,6 @@ from player import Player
 class Game:
 
     def __init__(self):
-        self.games = 0
-        self.wins = 0
-        self.losses = 0
-        self.ties = 0
-
         self.bot = Player.Min
         self.user = Player.Max
         self.matrix = [

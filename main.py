@@ -2,11 +2,36 @@ import random
 
 from player import Player
 from game import Game
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, flash, session
 
 app = Flask(__name__)
 app.secret_key = '123'
 g = Game()
+
+
+def init_stats():
+    if 'stats' not in session:
+        session['stats'] = {
+            'games': 0,
+            'wins': 0,
+            'losses': 0,
+            'ties': 0
+        }
+
+
+def update_stats():
+    init_stats()
+    session['stats']['games'] += 1
+    val = g.evaluate()
+    if val == 0:
+        flash('you tied', 'info')
+        session['stats']['ties'] += 1
+    elif val > 10 and g.user == Player.Max or val < 10 and g.user == Player.Min:
+        flash('you won', 'info')
+        session['stats']['wins'] += 1
+    else:
+        flash('you lost', 'info')
+        session['stats']['losses'] += 1
 
 
 @app.route('/')
@@ -27,39 +52,24 @@ def start_game(player_type):
 
 @app.route('/stats')
 def game_stats():
-    return render_template('stats.html', games=g.games, wins=g.wins, losses=g.losses, ties=g.ties)
-
-
-@app.route('/end')
-def end():
-    return render_template('game.html', matrix=g.matrix, end=True)
+    if 'stats' not in session:
+        init_stats()
+    return render_template('stats.html', stats=session.get('stats'))
 
 
 @app.route('/play/<int:i>/<int:j>')
 def play(i, j):
     if g.terminal():
-        return redirect(url_for('end'))
+        return render_template('game.html', matrix=g.matrix, end=True)
     try:
         g.play_user(i, j)
         if g.terminal():
-            g.games += 1
-            if g.evaluate() == 0:
-                flash('you tied', 'info')
-                g.ties += 1
-            else:
-                flash('you won', 'info')
-                g.wins += 1
-            return redirect(url_for('end'))
+            update_stats()
+            return render_template('game.html', matrix=g.matrix, end=True)
         g.minimax()
         if g.terminal():
-            g.games += 1
-            if g.evaluate() == 0:
-                flash('you tied', 'info')
-                g.ties += 1
-            else:
-                flash('you lost', 'info')
-                g.losses += 1
-            return redirect(url_for('end'))
+            update_stats()
+            return render_template('game.html', matrix=g.matrix, end=True)
         return render_template('game.html', matrix=g.matrix)
     except Exception as e:
         flash(f'{e}', 'danger')

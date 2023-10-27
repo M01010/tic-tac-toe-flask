@@ -2,14 +2,14 @@
 {% block content %}
     <h1>Game stats</h1>
     <div class="container" style="padding-bottom: 50px; padding-top: 50px;">
-        {% if games > 0 %}
-            <p>Games: {{ games }}</p>
-            <p>Wins: {{ wins }}</p>
-            <p>Losses: {{ losses }}</p>
-            <p>Ties: {{ ties }}</p>
-            <p>Win-rate: {{ wins/games*100 }}%</p>
-            <p>Lose-rate: {{ losses/games*100 }}%</p>
-            <p>Tie-rate: {{ ties/games*100 }}%</p>
+        <p>Games: {{ stats.games }}</p>
+        {% if stats.games > 0 %}
+            <p>Wins: {{ stats.wins }}</p>
+            <p>Losses: {{ stats.losses }}</p>
+            <p>Ties: {{ stats.ties }}</p>
+            <p>Win-rate: {{ stats.wins/stats.games*100 }}%</p>
+            <p>Lose-rate: {{ stats.losses/stats.games*100 }}%</p>
+            <p>Tie-rate: {{ stats.ties/stats.games*100 }}%</p>
         {% else %}
             <p>play some games first then come back here</p>
         {% endif %}
